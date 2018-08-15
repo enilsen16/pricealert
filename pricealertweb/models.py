@@ -12,8 +12,5 @@ class MarketData(models.Model):
 
 class Alerts(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     price = MoneyField(max_digits=19, decimal_places=2, default_currency='USD')
