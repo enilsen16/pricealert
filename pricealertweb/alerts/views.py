@@ -12,7 +12,7 @@ class AlertView(View):
 
 class CreateAlertView(CreateView):
     model = Alerts
-    template_name = "pricealertweb/alerts/alert.html"
+    template_name = "pricealertweb/alerts/alert_new.html"
     fields = ['price']
     success_url = "/pricealert/"
 
@@ -22,7 +22,7 @@ class CreateAlertView(CreateView):
 
 class UpdateAlertView(UpdateView):
     model = Alerts
-    template_name = "pricealertweb/alerts/alert.html"
+    template_name = "pricealertweb/alerts/alert_edit.html"
     fields = ['price']
     success_url = "/pricealert/"
 

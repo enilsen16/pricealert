@@ -1,0 +1,12 @@
+{% extends '../layout/base.html' %}
+
+{% block content %}
+  <div class="form-group">
+    <form action="/pricealert/edit/" method="post">
+      {% csrf_token %}
+
+      {{ form }}
+    <input type="submit" value="Submit">
+    </form>
+  </div>
+{% endblock %}
