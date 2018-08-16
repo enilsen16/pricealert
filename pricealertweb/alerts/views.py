@@ -2,13 +2,15 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from pricealertweb.models import Alerts
-from django.views import View
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView
 
-class AlertView(View):
-    def get(self, request):
-        return render(request, "pricealertweb/alerts/index.html", {})
+class AlertView(ListView):
+    model = Alerts
+    context_object_name = 'alert_list'
+    template_name = "pricealertweb/alerts/index.html"
 
+    def get_queryset(self):
+        return Alerts.objects.filter(user_id__exact=self.request.user.id)
 
 class CreateAlertView(CreateView):
     model = Alerts

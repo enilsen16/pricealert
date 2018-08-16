@@ -1,1 +1,18 @@
 {% extends '../layout/base.html' %}
+
+{% block content %}
+<h3>Alert list</h3>
+
+  {% if alert_list %}
+  <ul>
+    {% for alert in alert_list %}
+      <li>
+        <a href="{{ alert.get_absolute_url }}">{{ alert.price }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>You haven't created any alerts yet.</p>
+  {% endif %}
+{% endblock %}
+
