@@ -1,18 +1,31 @@
 {% extends '../layout/base.html' %}
 
 {% block content %}
-<h3>Alert list</h3>
+  <h3>Alert list</h3>
+
+  <div>
+    <span>Last known price: $6000</span>
+  </div>
 
   {% if alert_list %}
-  <ul>
-    {% for alert in alert_list %}
-      <li>
-        <a href="{{ alert.get_absolute_url }}">{{ alert.price }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for alert in alert_list %}
+        <tr>
+          <td>
+            <a href="{{ alert.get_absolute_url }}{{ alert.id }}">{{ alert.price }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-  <p>You haven't created any alerts yet.</p>
+    <p>You haven't created any alerts yet.</p>
   {% endif %}
 {% endblock %}
 
