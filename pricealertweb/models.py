@@ -10,7 +10,7 @@ class MarketData(models.Model):
     type = models.CharField(max_length=200)
     price = MoneyField(max_digits=19, decimal_places=2, default_currency='USD')
 
-class Alerts(models.Model):
+class Alert(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     alert_sent = models.BooleanField(default=False)

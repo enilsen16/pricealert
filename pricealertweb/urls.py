@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from pricealertweb.alerts import views
+from pricealertweb.alert import views
 
 urlpatterns = [
     url(r'^$', login_required(views.AlertView.as_view())),

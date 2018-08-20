@@ -1,20 +1,20 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from pricealertweb.models import Alerts
+from pricealertweb.models import Alert
 from django.views.generic import ListView, CreateView, UpdateView
 
 class AlertView(ListView):
-    model = Alerts
+    model = Alert
     context_object_name = 'alert_list'
-    template_name = "pricealertweb/alerts/index.html"
+    template_name = "pricealertweb/alert/index.html"
 
     def get_queryset(self):
-        return Alerts.objects.filter(user_id__exact=self.request.user.id)
+        return Alert.objects.filter(user_id__exact=self.request.user.id)
 
 class CreateAlertView(CreateView):
-    model = Alerts
-    template_name = "pricealertweb/alerts/alert_new.html"
+    model = Alert
+    template_name = "pricealertweb/alert/alert_new.html"
     fields = ['price']
     success_url = "/pricealert/"
 
@@ -23,8 +23,8 @@ class CreateAlertView(CreateView):
         return super(CreateAlertView, self).form_valid(form)
 
 class UpdateAlertView(UpdateView):
-    model = Alerts
-    template_name = "pricealertweb/alerts/alert_edit.html"
+    model = Alert
+    template_name = "pricealertweb/alert/alert_edit.html"
     fields = ['price']
     success_url = "/pricealert/"
 
