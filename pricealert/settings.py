@@ -133,6 +133,22 @@ LOGIN_REDIRECT_URL = '/pricealert/'
 
 CURRENCIES = ['USD']
 
+# Celery
+
+CELERY_BROKER_URL = 'redis://localhost'
+
+# Channels
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "pricealertweb.routing.channel_routing",
+    },
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
