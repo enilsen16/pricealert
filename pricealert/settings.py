@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'djmoney',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
-        "ROUTING": "pricealertweb.routing.channel_routing",
+        "ROUTING": "pricealert.routing.channel_routing",
     },
 }
 
@@ -153,3 +154,7 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
