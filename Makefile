@@ -1,5 +1,8 @@
-coinbase:
+celery-run:
+	celery -A pricealert beat
+	
+coinbase-run:
 	python gdax_ws.py
 
-django:
+django-runserver:
 	python manage.py runserver
