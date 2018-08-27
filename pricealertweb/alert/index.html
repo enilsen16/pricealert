@@ -4,7 +4,7 @@
   <h3>Alert list</h3>
 
   <div>
-    <span>Last known price: $6000</span>
+    <span>Last known price: {{ last_price }}</span>
   </div>
 
   {% if alert_list %}
@@ -28,4 +28,3 @@
     <p>You haven't created any alerts yet.</p>
   {% endif %}
 {% endblock %}
-

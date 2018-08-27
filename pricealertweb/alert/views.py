@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from pricealertweb.models import Alert
+from pricealertweb.models import Alert, MarketData
 from django.views.generic import ListView, CreateView, UpdateView
 
 class AlertView(ListView):
@@ -11,6 +11,11 @@ class AlertView(ListView):
 
     def get_queryset(self):
         return Alert.objects.filter(user_id__exact=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+        context = super(AlertView, self).get_context_data(**kwargs)
+        context['last_price'] = MarketData.objects.last().price
+        return context
 
 class CreateAlertView(CreateView):
     model = Alert

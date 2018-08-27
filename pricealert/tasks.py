@@ -19,8 +19,8 @@ def notify_on_price():
 
 def calculate_average_price():
     # This is pretty naive but it'll work for our purposes
-    avg_price = MarketData.objects.exclude(
-        created_at__lte=datetime.now() - timedelta(minutes=10)
+    avg_price = MarketData.objects.include(
+        created_at__gte=datetime.now() - timedelta(seconds=30)
     ).aggregate(
         Avg('price')
     ).values()[0]
