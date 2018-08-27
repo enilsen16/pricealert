@@ -1,7 +1,7 @@
 celery-run:
-	celery -A pricealert worker -B -l debug 
+	celery -A pricealert worker -B -l debug
 
-coinbase-run:
+gdax-celery:
 	python gdax_ws.py
 
 django-runserver:

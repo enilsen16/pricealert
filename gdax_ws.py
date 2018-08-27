@@ -32,6 +32,5 @@ wsClient = coinbaseWebsocketClient()
 wsClient.start()
 print(wsClient.url, wsClient.products)
 while (wsClient.message_count < 10000):
-    print("\nmessage_count =", "{} \n".format(wsClient.message_count))
     time.sleep(1)
 wsClient.close()
