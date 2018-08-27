@@ -1,6 +1,6 @@
 celery-run:
-	celery -A pricealert beat
-	
+	celery -A pricealert worker -B -l debug 
+
 coinbase-run:
 	python gdax_ws.py
 
