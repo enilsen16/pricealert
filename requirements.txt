@@ -13,6 +13,7 @@ constantly==15.1.0
 daphne==1.4.2
 Django==1.11.15
 django-allauth==0.36.0
+django-extensions==2.1.2
 django-money==0.14.2
 futures==3.2.0
 gdax==1.0.6
