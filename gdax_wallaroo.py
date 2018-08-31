@@ -6,17 +6,20 @@ import signal
 import socket
 import sys
 import time
+import struct
 
 import cbpro
 import requests
 import requests_oauthlib
 
+
 def send_to_wallaroo(msg, tcp_connection):
+    message = json.dumps(msg)
     try:
-        tcp_connection.sendall(str(len(msg) + 1).zfill(5) +
-                               msg + '\n')
+        tcp_connection.sendall(struct.pack(">I",len(message))+message)
     except:
-        print "Error decoding data received from Coinbase!"
+        print("Error decoding data received from Coinbase!")
+
 
 class coinbaseWebsocketClient(cbpro.WebsocketClient):
     def on_open(self):
@@ -28,26 +31,27 @@ class coinbaseWebsocketClient(cbpro.WebsocketClient):
     def on_message(self, msg):
         if 'price' in msg and 'type' in msg:
             self.message_count += 1
-            send_to_wallaroo(msg, sock)
+            send_to_wallaroo(json.dumps(msg), sock)
             print("Message type:", msg["type"],
                   "\t@ {:.3f}".format(float(msg["price"])))
 
     def on_close(self):
         print("-- Goodbye! --")
-s
+
+
 print("Set up Coinbase websocket....")
 wsClient = coinbaseWebsocketClient()
 wsClient.start()
 
 print("Set up Wallaroo socket.....")
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-wallaro_input_address = ('localhost', 8002)
+wallaro_input_address = ('localhost', 7000)
 
-print 'connecting to Wallaroo on %s:%s' % wallaro_input_address
+print("connecting to Wallaroo on {}".format(wallaro_input_address))
 sock.connect(wallaro_input_address)
 
 print(wsClient.url, wsClient.products)
-while (wsClient.message_count < 500):
+while (wsClient.message_count < 100):
     print ("\nmessage_count =", "{} \n".format(wsClient.message_count))
     time.sleep(0.5)
 wsClient.close()
