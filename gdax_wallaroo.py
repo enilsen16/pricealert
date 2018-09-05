@@ -51,7 +51,7 @@ print("connecting to Wallaroo on {}".format(wallaro_input_address))
 sock.connect(wallaro_input_address)
 
 print(wsClient.url, wsClient.products)
-while (wsClient.message_count < 100):
+while (wsClient.message_count < 10000):
     print ("\nmessage_count =", "{} \n".format(wsClient.message_count))
     time.sleep(0.5)
 wsClient.close()

@@ -33,7 +33,7 @@ def application_setup(args):
 # To save the alerts
 class Alerts(object):
     def __init__(self):
-        self.alerts = dict({})
+        self.alerts = dict()
 
     def add(self, alert_price, user_id):
         # TODO: Use a set, and append if the set already exists
@@ -45,8 +45,8 @@ class Alerts(object):
 class BTCPrice(object):
     def __init__(self):
         self.count = 0
-        self.total = decimal.Decimal(0)
-        self.average = decimal.Decimal(0)
+        self.total = decimal.Decimal()
+        self.average = decimal.Decimal()
 
 
 @wallaroo.state_computation(name="save alert")
