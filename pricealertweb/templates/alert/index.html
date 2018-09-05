@@ -1,9 +1,9 @@
 {% extends '../layout/base.html' %}
 
 {% block content %}
-  <h3>Alert list</h3>
-  <div class="float-right">
-    <a href="{% url 'alert_new' %}">New Alert</a>
+  <h1 class="mt-5">Alert list</h1>
+  <div class="float-right mb-2">
+    <a class="btn btn-primary" href="{% url 'alert_new' %}" >New Alert</a>
   </div>
 
   <div>
@@ -32,6 +32,6 @@
       </tbody>
     </table>
   {% else %}
-    <p>You haven't created any alerts yet.</p>
+    <p class="lead">You haven't created any alerts yet.</p>
   {% endif %}
 {% endblock %}

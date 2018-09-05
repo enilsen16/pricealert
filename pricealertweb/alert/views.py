@@ -7,7 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView
 class AlertView(ListView):
     model = Alert
     context_object_name = 'alert_list'
-    template_name = "pricealertweb/alert/index.html"
+    template_name = "alert/index.html"
 
     def get_queryset(self):
         return Alert.objects.filter(user_id__exact=self.request.user.id)
@@ -19,20 +19,10 @@ class AlertView(ListView):
 
 class CreateAlertView(CreateView):
     model = Alert
-    template_name = "pricealertweb/alert/alert_new.html"
+    template_name = "alert/new.html"
     fields = ['price']
     success_url = "/pricealert/"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(CreateAlertView, self).form_valid(form)
-
-class UpdateAlertView(UpdateView):
-    model = Alert
-    template_name = "pricealertweb/alert/alert_edit.html"
-    fields = ['price']
-    success_url = "/pricealert/"
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(UpdateAlertView, self).form_valid(form)
