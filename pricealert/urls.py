@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^pricealert/', include('pricealertweb.urls')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^admin/', admin.site.urls),
+    url('', include('pricealertweb.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
