@@ -16,8 +16,7 @@ def notify_on_price():
     alerts = get_alerts(avg_price)
     for alert in alerts:
         notify_user(alert.user_id, alert.price, avg_price)
-        alert.sent = True
-        alert.save()
+    alerts.update(sent=True)
     return True
 
 def calculate_average_price():
@@ -44,3 +43,11 @@ def notify_user(user_id, price_set, avg_price):
     Group("user-{}".format(user_id)).send(
         {'text': "The current price of BTC is: %s has surpassed: %s" % (avg_price, price_set)}, immediately=True)
     return True
+
+# This function is needed because otherwise we wouldn't be able to make the alert as sent
+@app.task
+def mark_alert_as_sent(user_ids, alert_price):
+    Alert.objects.filter(
+        price=alert_price,
+        user_id__in=user_ids
+    ).update(sent=True)

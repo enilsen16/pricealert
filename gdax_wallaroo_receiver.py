@@ -7,7 +7,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pricealert.settings")
 django.setup()
 
-from pricealert.tasks import send_to_users
+from pricealert.tasks import send_to_users, mark_alert_as_sent
 
 
 def send_to_user(user_ids, alert_price, avg_price):
@@ -32,3 +32,4 @@ while True:
     for (alert_price, user_ids) in alert_json.iteritems():
         if alert_price != 'average_price':
             send_to_users(user_ids, alert_price, alert_json["average_price"])
+            mark_alert_as_sent(user_ids, alert_price)
