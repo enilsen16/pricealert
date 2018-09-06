@@ -10,12 +10,12 @@ def setup_periodic_tasks(sender, **kwargs):
     if WITH_WALLAROO == 'False':
         sender.add_periodic_task(10.0, notify_on_price.s(), name='Alert every 30')
 
-@app.task
+@app.task(ignore_result=True)
 def notify_on_price():
     avg_price = calculate_average_price()
     alerts = get_alerts(avg_price)
     for alert in alerts:
-        notify_user(alert.user_id, alert.price, avg_price)
+        notify_user.s(alert.user_id, alert.price, avg_price)
     alerts.update(sent=True)
     return True
 
@@ -34,7 +34,7 @@ def get_alerts(avg_price):
         sent=True
     )
 
-@app.task
+@app.task(ignore_result=True)
 def notify_users(user_ids, price_set, avg_price):
     for user_id in user_ids:
         notify_user(user_id, price_set, avg_price)
@@ -45,7 +45,7 @@ def notify_user(user_id, price_set, avg_price):
     return True
 
 # This function is needed because otherwise we wouldn't be able to make the alert as sent
-@app.task
+@app.task(ignore_result=True)
 def mark_alert_as_sent(user_ids, alert_price):
     Alert.objects.filter(
         price=alert_price,
