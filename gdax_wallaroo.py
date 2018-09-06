@@ -13,8 +13,7 @@ import requests
 import requests_oauthlib
 
 
-def send_to_wallaroo(msg, tcp_connection):
-    message = json.dumps(msg)
+def send_to_wallaroo(message, tcp_connection):
     try:
         tcp_connection.sendall(struct.pack(">I",len(message))+message)
     except:

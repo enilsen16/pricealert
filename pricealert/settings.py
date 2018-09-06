@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,3 +172,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+TCP_CONNECTION = None
+WITH_WALLAROO = os.environ.get('WITH_WALLAROO', False)
+
+if WITH_WALLAROO == 'True':
+    print "Starting socket..."
+    TCP_CONNECTION = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    wallaro_input_address = ('localhost', 7001)
+    TCP_CONNECTION.connect(wallaro_input_address)

@@ -7,5 +7,8 @@ gdax-celery:
 gdax-wallaroo:
 	python gdax_wallaroo.py
 
-django-runserver:
-	python manage.py runserver
+django-wallaroo-runserver:
+	WITH_WALLAROO=True python manage.py runserver
+
+django-celery-runserver:
+	WITH_WALLAROO=False python manage.py runserver

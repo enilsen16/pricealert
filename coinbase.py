@@ -36,8 +36,8 @@ class Alerts(object):
         self.alerts = dict()
 
     def add(self, alert_price, user_id):
-        # TODO: Use a set, and append if the set already exists
-        self.alerts[alert_price] = user_id
+        old_value = self.alerts.get(alert_price, set([]))
+        self.alerts[alert_price] = old_value + set([user_id])
 
     def remove(self, alert_price):
         self.alerts.pop(alert_price, None)
@@ -51,7 +51,7 @@ class BTCPrice(object):
 
 @wallaroo.state_computation(name="save alert")
 def save_alert(data, alerts):
-    alerts.add(data.price, data.user_id)
+    alerts.add(data['price'], data['user_id'])
     return (None, True)
 
 
