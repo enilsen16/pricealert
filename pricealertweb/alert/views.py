@@ -36,5 +36,5 @@ class CreateAlertView(CreateView):
     @receiver(post_save, sender=Alert)
     def after_save_send_to_wallaroo(sender, instance, **kwargs):
         if settings.WITH_WALLAROO == 'True':
-            message = json.dumps(dict({'price': str(instance.price), 'user_id': instance.user_id}))
+            message = json.dumps(dict({'price': str(instance.price.amount), 'user_id': instance.user_id}))
             settings.TCP_CONNECTION.sendall(struct.pack(">I",len(message))+message)

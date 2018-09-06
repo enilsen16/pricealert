@@ -37,7 +37,7 @@ class Alerts(object):
 
     def add(self, alert_price, user_id):
         old_value = self.alerts.get(alert_price, set([]))
-        self.alerts[alert_price] = old_value + set([user_id])
+        self.alerts[alert_price] = old_value.union(set([user_id]))
 
     def remove(self, alert_price):
         self.alerts.pop(alert_price, None)
@@ -57,7 +57,7 @@ def save_alert(data, alerts):
 
 @wallaroo.computation(name="extract price")
 def extract_price(data):
-    return (json.loads(data)["price"], True)
+    return (data["price"], True)
 
 
 @wallaroo.state_computation(name="calculate and update the average price")
@@ -70,9 +70,17 @@ def calculate_and_update_average_price(price, btc_price):
 
 @wallaroo.state_computation(name="maybe send notification")
 def maybe_send_alerts_based_on_average_price(btc_price, alerts):
-    notify = {k: v for (k, v) in alerts.alerts.items() if v <= btc_price.average}
-    notify["average_price"] = str(btc_price.average)
-    return (notify, True)
+    notify = {}
+    # notify = {k: list(v) for (k, v) in alerts.alerts.items() if decimal.Decimal(k) <= btc_price.average}
+    for (k,v) in alerts.alerts.items():
+        if decimal.Decimal(k) <= btc_price.average:
+            notify[k] = list(v)
+            alerts.remove(k)
+
+    if notify:
+        notify["average_price"] = str(btc_price.average)
+        return (notify, True)
+    return (None, False)
 
 
 @wallaroo.decoder(header_length=4, length_fmt=">I")
@@ -85,4 +93,4 @@ def decoder(data):
 def encoder(data):
     output = json.dumps(data)
     payload = bytes(output)
-    return struct.pack(">I", len(payload)) + payload
+    return payload
