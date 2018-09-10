@@ -1,5 +1,5 @@
 celery-run:
-	celery -A pricealert worker -B -l info
+	WITH_WALLAROO=False celery -A pricealert worker -B -l info
 
 gdax-celery:
 	python gdax_celery.py

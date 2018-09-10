@@ -1,23 +1,15 @@
 from channels import Group
 from datetime import datetime, timedelta
 from django.db.models import Avg
+from django.conf import settings
 from djmoney.money import Money
 from pricealert.celery import app
 from pricealertweb.models import MarketData, Alert
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    if WITH_WALLAROO == 'False':
+    if settings.WITH_WALLAROO == 'False':
         sender.add_periodic_task(10.0, notify_on_price.s(), name='Alert every 30')
-
-@app.task(ignore_result=True)
-def notify_on_price():
-    avg_price = calculate_average_price()
-    alerts = get_alerts(avg_price)
-    for alert in alerts:
-        notify_user.s(alert.user_id, alert.price, avg_price)
-    alerts.update(sent=True)
-    return True
 
 def calculate_average_price():
     avg_price = MarketData.objects.filter(
@@ -51,3 +43,12 @@ def mark_alert_as_sent(user_ids, alert_price):
         price=alert_price,
         user_id__in=user_ids
     ).update(sent=True)
+
+@app.task(ignore_result=True)
+def notify_on_price():
+    avg_price = calculate_average_price()
+    alerts = get_alerts(avg_price)
+    for alert in alerts:
+        notify_user(alert.user_id, alert.price, avg_price)
+    alerts.update(sent=True)
+    return True
