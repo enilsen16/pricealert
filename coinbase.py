@@ -71,7 +71,6 @@ def calculate_and_update_average_price(price, btc_price):
 @wallaroo.state_computation(name="maybe send notification")
 def maybe_send_alerts_based_on_average_price(btc_price, alerts):
     notify = {}
-    # notify = {k: list(v) for (k, v) in alerts.alerts.items() if decimal.Decimal(k) <= btc_price.average}
     for (k,v) in alerts.alerts.items():
         if decimal.Decimal(k) <= btc_price.average:
             notify[k] = list(v)
