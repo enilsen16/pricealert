@@ -24,36 +24,15 @@ Once Django is setup and you've done the necessary prerequisites for Wallaroo, y
 
 #### For Celery in separate terminals:
 ```sh
-# Seed our DB with some transactions from coinbase.
-make gdax-celery
-make django-celery-runserver
-# It's important that you start celery last
-make celery-run
+# assuming you have all the dependencies installed
+make run-on-celery
 ```
 
 #### For Wallaroo in separate terminals:
 
 ```sh
-# Our custom receiver
-make gdax-wallaroo-receiver
-```
-To run machida:
-
-```sh
-# Run our python code
-machida --application-module coinbase  --in 127.0.0.1:7000,127.0.0.1:7001 \
-  --out 127.0.0.1:5555 --metrics 127.0.0.1:5001 --control 127.0.0.1:6000 \
-  --data 127.0.0.1:6001 --name worker-name --external 127.0.0.1:5050 \
-  --cluster-initializer --ponythreads=1 --ponynoblock
-```
-
-Then start the webserver and application pulling data from coinbase
-```sh
-# Start webserver
-make django-wallaroo-runserver
-# Celery still needs to be started to trigger client side notifications and update our DB records
-make celery-run
-make gdax-wallaroo
+# assuming you have all the dependencies installed
+make run-on-wallaroo
 ```
 
 ## Contributing
